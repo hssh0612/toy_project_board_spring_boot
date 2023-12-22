@@ -1,0 +1,121 @@
+
+================ 설치
+
+윈도우 + R => control, 제어판 검색
+프로그램 제거 또는 변경 => 자바 파일 지우기(development) 포함
+----> 자바를 업데이트 하였다면 파일이 총 4개가 될것. 전부 삭제.
+
+제거 후
+
+jdk-8u371-windows-x64 실행하여 설치(설치경로 수정 x)
+
+================ 설치 확인
+
+윈도우 + r 누른 후 cmd 
+java -version 입력
+
+java version "1.8.0_371"
+Java(TM) SE Runtime Environment (build 1.8.0_371-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.371-b11, mixed mode)
+
+s230523 폴더에 server_jsp 폴더 생성 후 
+이클립스 jee 압축파일 해제.
+
+s230523 폴더에 workspace_jsp 폴더 생성
+
+server_jsp 폴더에 apache-tomcat 파일을넣고 압축 해제.
+
+이클립스 안의 exe파일-> 바로가기 생성하여 바탕화면(이름변경 ex: eclipse_JSP )
+
+================ 이클립스 설정
+
+윈도우 + R = > control, 제어판
+
+시스템 -> 오른쪽 -> 고급 시스템 설정 -> 환경변수 -> 
+
+시스템 변수 새로만들기 -> JAVA_HOME
+파일 찾아보기 프로그램 파일 - 자바 - jdk-1.8 위치 설정
+
+시스템 설정 아래쪽 Path 더블클릭
+환경 변수 편집 아래쪽 빈칸에 더블클릭하여 %JAVA_HOME%\bin 입력
+바로 아래 C:\Program Files\Java\jdk-1.8\bin
+
+===============================================이클립스 내부 설정
+이클립스 -> window -> preferences -> general
+appearance -> Colors and fonts - basic -Text Font -> edit -> Consolas 12~14폰트
+
+preferences -> encoding -> workspace
+아래쪽 text ifle encoding -> other utf-8로 설정
+CSS, HTML, HSP Files -> Encoding을 전부 가장 위에 있는 utf-8로 설정
+
+preferences -> template -> web 아래에 있는 JSP 아래쪽 templates
+-> new jsp file (html 5) 있는지 확인
+
+preferences -> browser 검색
+Web Browser -> Chrome으로 설정
+window -> Web Browser -> 3 Chrome으로 다시 설정
+
+이클립스 아래쪽 servers -> 파란글씩 클릭
+apache -> v9.0 선택
+browser -> C:\s230523\server_jsp\apache-tomcat-9.0.80 까지만 선택
+
+JRE설정 X
+
+다시 파란색 눌러서 
+오른쪽 ports -> Tomcat admin port 8005 -> HTTP/1.1 -> 8088 -> 엔터 -> 컨트롤 S(저장)
+왼쪽 servers에 server.xml -> 아래쪽 source -> ports 8088 설정된것 확인
+
+Tomcat은 잘 망가진다, 고치기 힘들다.
+왼쪽 File -> new -> Dynamic Web Project -> P0829 -> Next -> Next -> finish
+
+왼쪽 생성된 P0829 아래에 WebContent 오른쪽 클릭.
+new -> JSP file 선택 -> 확장자 .jsp 고정 -> test01.jsp -> next -> HTML5 설정되어있는것 확인->finish
+
+===============================
+워크벤치 화면 
+왼쪽 하단 MySQL Connections -> + 클릭
+가장 위의 Connection name = sol23
+중간 Username = sol23 
+Password: Sotre in vault ... 버튼 눌러서 1234 로 설정
+저장 후 나가서 로그인 시도
+
+==================================
+이클립스 화면 하단 ->  Data Source Explorer 클릭
+데이타 베이스 컨넥션 우클릭 -> new -> MySql 선택 후 넥스트
+Drivers: 오른쪽의 동그란것 클릭(New Driver Definition)
+
+시스템 버전 5.1 드라이버를 누른 후 JAR List에서 기존것을 삭제(클리어)
+
+Add JAR/Zip 눌러서 설치파일 중 알집을 해제하여 나온 파일에서 2개중 하나인 mysql-connector-java-5.1.49.jar 선택.
+
+바로 옆 프로퍼티스로 이동
+Databases Name을 db01로 변경
+커넥션 네임 가장 뒷부분 데이타베이스를 db01로 변경
+유저네임 : sol23
+비밀번호 1234
+설정 후 OK
+아래 하단부분 test Connection 으로 핑 테스트 진행.
+
+이클립스로 왼쪽 상단 프로젝트를 잡고 sqlFile 폴더 생성
+sqlFile 폴더 우클릭 -> new -> SQL File 만들기
+이름 memberTest01.sql 로 설정 후 아래부분
+Database server type: mysql_5.1
+Connection profile name: new mysql
+Database name: db01
+설정 후 피니쉬
+
+알트 + s로 이클립스에서 실행 가능.
+==============================
+mysql-connector-java-5.1.49-bin.jar 파일을
+
+C:\Program Files\Java\jre-1.8\lib\ext 에도 똑같이 넣어준다.
+--> 이클립스에서 지속적으로 lib폴더 안에 넣기 귀찮.
+복사해서 넣어놓으면 자동으로 된다.
+--> 자바로 돌아가는거에 MySQL 드라이버를 넣은것.
+
+==============================
+server.xml 가장 아래부분 
+<Context docBase="Mall23" path="/Mall23" reloadable="true" source="org.eclipse.jst.jee.server:Mall23"/>
+      <Context docBase="c:/imageFile" path="/imageFile" reloadable="true"/>
+
+
